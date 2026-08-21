@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>HWYW俄罗斯方块</title>
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- 登录 / 注册 -->
+    <section id="loginScreen" class="screen active">
+      <div class="panel">
+        <h1 class="title">🧱 俄罗斯方块</h1>
+        <span class="brand">HWYW · 出品</span>
+        <p class="subtitle" id="modeText">模式：检测中…</p>
+        <input id="loginUser" type="text" placeholder="用户名 (2-20字)" autocomplete="username" maxlength="20" />
+        <input id="loginPass" type="password" placeholder="密码" autocomplete="current-password" />
+        <p id="loginErr" class="err"></p>
+        <button id="loginBtn" class="btn primary">登录</button>
+        <button id="regBtn" class="btn">注册新账号</button>
+        <button id="lbBtnLogin" class="btn ghost">查看排行榜</button>
+        <button id="installBtn" class="btn ghost" style="display:none">📲 安装到主屏幕</button>
+        <a id="downloadLink" class="btn ghost" href="download.html">📥 扫码下载 / 分享</a>
+        <p class="hint">手机上：用底部按钮操控，左右移动、旋转、下落。<br/>登录后分数进入排行榜，联网时与好友跨手机比拼。</p>
+      </div>
+    </section>
+
+    <!-- 游戏 -->
+    <section id="gameScreen" class="screen">
+      <div class="topbar">
+        <div class="brand-mini">HWYW</div>
+        <div class="stats">
+          <div class="stat"><span class="lbl">分数</span><b id="hudScore">0</b></div>
+          <div class="stat"><span class="lbl">等级</span><b id="hudLevel">1</b></div>
+          <div class="stat"><span class="lbl">行数</span><b id="hudLines">0</b></div>
+        </div>
+        <div class="top-actions">
+          <span id="soundBtn" title="音效开关">🔊</span>
+          <span id="hudMode" class="badge"></span>
+          <span id="pauseBtn" title="暂停">⏸</span>
+        </div>
+      </div>
+
+      <div class="play">
+        <div class="board-wrap">
+          <canvas id="game"></canvas>
+        </div>
+        <div class="side">
+          <div class="box">
+            <div class="box-title">下一个</div>
+            <canvas id="next" width="84" height="84"></canvas>
+          </div>
+          <div class="box">
+            <div class="box-title">暂存 <small>(H)</small></div>
+            <canvas id="hold" width="84" height="84"></canvas>
+          </div>
+          <div class="box best-box">
+            <div class="box-title">最高</div>
+            <b id="hudBest">0</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="ctrl" data-act="left" aria-label="左移">◀</button>
+        <button class="ctrl" data-act="rotate" aria-label="旋转">⟳</button>
+        <button class="ctrl" data-act="right" aria-label="右移">▶</button>
+        <button class="ctrl" data-act="soft" aria-label="软降">▼</button>
+        <button class="ctrl" data-act="hard" aria-label="硬降">⤓</button>
+        <button class="ctrl" data-act="hold" aria-label="暂存">H</button>
+      </div>
+
+      <div id="pauseOverlay" class="overlay hidden">已暂停<br /><small>点击继续</small></div>
+    </section>
+
+    <!-- 结算 -->
+    <section id="gameOverScreen" class="screen">
+      <div class="panel">
+        <h1 class="title">游戏结束</h1>
+        <p class="score-big">本局得分 <b id="finalScore">0</b></p>
+        <p class="best">历史最高 <b id="finalBest">0</b></p>
+        <p id="syncNote" class="hint"></p>
+        <button id="playAgainBtn" class="btn primary">再来一局</button>
+        <button id="lbBtnOver" class="btn">查看排行榜</button>
+        <button id="logoutBtn" class="btn ghost">退出登录</button>
+      </div>
+    </section>
+
+    <!-- 排行榜 -->
+    <section id="leaderboardScreen" class="screen">
+      <div class="panel wide">
+        <h1 class="title">🏆 排行榜</h1>
+        <p id="lbMode" class="subtitle"></p>
+        <ol id="lbList" class="lb-list"></ol>
+        <button id="lbBackBtn" class="btn">返回</button>
+      </div>
+    </section>
+
+  </div>
+  <script src="config.js"></script>
+  <script src="game.js"></script>
+  </body>
+</html>
