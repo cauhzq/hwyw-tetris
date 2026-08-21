@@ -1,0 +1,8 @@
+node_modules/
+npm-debug.log
+apk-build/out/
+*.apk
+!public/tetris-hwyw.apk
+build.log
+.DS_Store
+data.json
