@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HWYW俄罗斯方块 · 下载</title>
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: radial-gradient(160% 120% at 50% 0%, #16203f, #0b1020); }
+    .dl-wrap { max-width: 520px; margin: 0 auto; padding: 28px 18px 40px; }
+    .dl-title { text-align: center; font-size: 26px; margin: 8px 0 2px; color:#fff; }
+    .dl-brand { display:block; text-align:center; margin: 0 0 4px; }
+    .dl-brand b { background:#ffcf4d; color:#1a1300; padding:3px 10px; border-radius:999px; font-size:12px; letter-spacing:2px; }
+    .dl-sub { text-align:center; color:#9fb0ff; font-size:13px; margin:0 0 22px; }
+    .dl-card {
+      background: rgba(20,24,48,.85); border:1px solid rgba(120,140,255,.22);
+      border-radius:18px; padding:20px; margin-bottom:16px; text-align:center;
+      box-shadow:0 16px 50px rgba(0,0,0,.45);
+    }
+    .dl-card h2 { margin:0 0 4px; font-size:18px; color:#fff; }
+    .dl-card p { margin:0 0 14px; color:#9fb0ff; font-size:13px; line-height:1.6; }
+    .qr {
+      width:200px; height:200px; margin:0 auto 14px; border-radius:14px;
+      background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden;
+    }
+    .qr img { display:block; width:100%; height:100%; object-fit:contain; }
+    .qr canvas { display:block; image-rendering:pixelated; }
+    .qr-fallback { color:#333; font-size:11px; padding:10px; word-break:break-all; line-height:1.5; }
+    .dl-btn {
+      display:inline-block; width:100%; padding:13px; font-size:16px; font-weight:700;
+      border-radius:12px; border:none; cursor:pointer; text-decoration:none;
+      background:linear-gradient(135deg,#4cd4ff,#7b6bff); color:#06122b;
+    }
+    .dl-btn.alt { background:rgba(255,255,255,.1); color:#eef2ff; }
+    .dl-tip { color:#8a93b8; font-size:12px; text-align:center; margin-top:18px; line-height:1.7; }
+    .dl-back { display:block; text-align:center; color:#9fb0ff; margin-top:14px; text-decoration:none; font-size:14px; }
+    .scan-badge {
+      display:inline-flex; align-items:center; gap:6px; margin:0 auto 14px;
+      background:rgba(76,212,255,.14); color:#9fe9ff; border:1px solid rgba(76,212,255,.4);
+      padding:5px 12px; border-radius:999px; font-size:12px; letter-spacing:1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dl-wrap">
+    <h1 class="dl-title">🧱 HWYW俄罗斯方块</h1>
+    <span class="dl-brand"><b>HWYW · 出品</b></span>
+    <p class="dl-sub">扫二维码，把游戏装进手机</p>
+
+    <div class="dl-card">
+      <h2>📱 网页版 / PWA（iOS + 安卓）</h2>
+      <p>用手机浏览器扫码打开，点「添加到主屏幕」即可安装，离线也能玩。</p>
+      <div class="scan-badge">📷 扫码下载 / 安装</div>
+      <div class="qr" id="qrPwa"></div>
+      <a class="dl-btn" id="btnPwa" href="#">打开网页版</a>
+    </div>
+
+    <div class="dl-card">
+      <h2>🤖 安卓安装包 APK（离线）</h2>
+      <p>扫码下载 APK，允许「未知来源」后安装，完全离线运行。版本：HWYW-1.0.0</p>
+      <div class="scan-badge">📷 扫码下载 APK</div>
+      <div class="qr" id="qrApk"></div>
+      <a class="dl-btn alt" id="btnApk" href="tetris-hwyw.apk">下载 APK（安卓）</a>
+    </div>
+
+    <p class="dl-tip">
+      排行榜说明：网页版默认「本地模式」（本机多账号排名）。<br/>
+      如需跨手机全球排名，把后端部署到公网并在 config.js 配置 apiBase。
+    </p>
+    <a class="dl-back" href="index.html">← 返回游戏</a>
+  </div>
+
+  <script src="qrcode_lib.js"></script>
+  <script>
+    // 站点基准地址：优先用已部署的公网地址，本地调试回退到当前 origin
+    var DEPLOY_URL = 'https://3acb28cd4bdf40c9b37c6d7b2c1e2859.app.workbuddy.link';
+    var origin = (location.protocol === 'http:' || location.protocol === 'https:') ? location.origin : DEPLOY_URL;
+    var pwaUrl = (origin && origin.indexOf('file:') !== 0) ? origin : DEPLOY_URL;
+    var apkUrl = pwaUrl.replace(/\/$/, '') + '/tetris-hwyw.apk';
+
+    document.getElementById('btnPwa').href = pwaUrl;
+    document.getElementById('btnApk').href = apkUrl;
+
+    function renderQR(elId, text) {
+      var box = document.getElementById(elId);
+      if (typeof qrcode === 'function') {
+        try {
+          var qr = qrcode(0, 'M');
+          qr.addData(text);
+          qr.make();
+          box.innerHTML = qr.createImgTag(8, 10);
+          return;
+        } catch (e) { /* fall through to text */ }
+      }
+      box.innerHTML = '<div class="qr-fallback">' + text + '</div>';
+    }
+
+    renderQR('qrPwa', pwaUrl);
+    renderQR('qrApk', apkUrl);
+  </script>
+</body>
+</html>
