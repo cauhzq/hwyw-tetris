@@ -1,0 +1,11 @@
+{
+  "name": "hwyw-tetris-game",
+  "version": "1.0.0",
+  "description": "手机端俄罗斯方块（HWYW 出品）：支持多用户登录、排行榜，可安装为 PWA / APK，离线或联网运行。",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "gen-icons": "node tools/gen-icons.js"
+  },
+  "license": "MIT"
+}
